@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
-
+import { CommonModule } from '@angular/common';
 
 import { PagesRoutingModule } from './pages.routing';
 import { PagesComponent } from './pages.component';
 import { ListComponent } from './modules/list/list.component';
-import { CommonModule } from '@angular/common';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
     declarations: [
@@ -14,6 +14,7 @@ import { CommonModule } from '@angular/common';
     imports: [
         CommonModule,
         PagesRoutingModule,
+        SharedModule
     ],
     providers: [],
     bootstrap: []

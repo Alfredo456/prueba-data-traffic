@@ -1,10 +1,20 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { PagesComponent } from './pages.component';
+import { PrincipalComponent } from './modules/principal/principal.component';
 
-import { ListComponent } from './modules/list/list.component';
 
 const routes: Routes = [
-    { path: '', component: ListComponent },
+    {
+        path: '',
+        component: PagesComponent,
+        children: [
+            {
+                path: '',
+                component: PrincipalComponent
+            },
+        ]
+    }
 ];
 
 @NgModule({

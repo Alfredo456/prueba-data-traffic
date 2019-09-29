@@ -10,7 +10,7 @@ import { PrincipalModule } from './modules/principal/principal.module';
     ],
     imports: [
         PagesRoutingModule,
-        PrincipalModule
+        PrincipalModule,
     ],
     providers: [],
     bootstrap: []

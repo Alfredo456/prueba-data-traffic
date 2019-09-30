@@ -44,7 +44,7 @@ export class PrincipalListProviderComponent implements OnInit {
             this._notificationsService.success('Eliminación de Proveedor', 'eliminación exitosa');
             this.getAllProviders();
         } else {
-            this._notificationsService.error('Eliminación de Proveedor', 'error');
+            this._notificationsService.error('Existen productos relacionados a este proveedor elimine este antes');
         }
     }
     public openActionModal() {

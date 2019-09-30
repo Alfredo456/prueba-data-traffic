@@ -11,37 +11,32 @@
     <div class="row form-contact">
       <div class="col-12">
         <div class="form-group">
-          <input type="text" formControlName="product_serial" class="form-control"
-            [attr.disabled]="product_serial ? true : null" placeholder="Serial del Producto" [ngClass]="
-                      {
-                        'is-valid': _formService.isValid(productForm, 'product_serial') === true,
-                        'is-invalid': _formService.isValid(productForm, 'product_serial') === false
-                      }">
-        </div>
-      </div>
-      <div class="col-12">
-        <div class="form-group">
-          <input type="text" formControlName="provider_nickname" class="form-control"
-            [attr.disabled]="provider_nickname ? true : null" placeholder="NickName del proveedor" [ngClass]="
+          <input type="text" formControlName="inventory_serial" class="form-control"
+            [attr.disabled]="inventory_serial ? true : null" placeholder="Serial del Inventario" [ngClass]="
                         {
-                          'is-valid': _formService.isValid(productForm, 'provider_nickname') === true,
-                          'is-invalid': _formService.isValid(productForm, 'provider_nickname') === false
+                          'is-valid': _formService.isValid(productForm, 'inventory_serial') === true,
+                          'is-invalid': _formService.isValid(productForm, 'inventory_serial') === false
                         }">
         </div>
       </div>
       <div class="col-12">
         <div class="form-group">
-          <input type="text" formControlName="store_code" class="form-control"
-            [attr.disabled]="store_code ? true : null" placeholder="Codigo de la tienda" [ngClass]="
-                          {
-                            'is-valid': _formService.isValid(productForm, 'store_code') === true,
-                            'is-invalid': _formService.isValid(productForm, 'store_code') === false
-                          }">
+          <angular2-multiselect formControlName="store_code" [data]="storeList" [(ngModel)]="selectedStore"
+            [settings]="setting">
+          </angular2-multiselect>
         </div>
       </div>
       <div class="col-12">
         <div class="form-group">
-          <input type="text" formControlName="quantity" OnlyNumber='true' class="form-control" placeholder="Cantidad" [ngClass]="
+          <angular2-multiselect formControlName="product_serial" [data]="productList" [(ngModel)]="selectedProduct"
+            [settings]="setting">
+          </angular2-multiselect>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="form-group">
+          <input type="text" formControlName="quantity" OnlyNumber='true' class="form-control" placeholder="Cantidad"
+            [ngClass]="
                         {
                           'is-valid': _formService.isValid(productForm, 'quantity') === true,
                           'is-invalid': _formService.isValid(productForm, 'quantity') === false

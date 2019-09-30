@@ -14,12 +14,10 @@ export class PrincipalListStoreInventoryComponent implements OnInit {
     public totalRegister: number;
     public page: number;
     public dataperPage: number;
-    public product_serial: string;
-    public provider_nickname: string;
-    public store_code: string;
+    public inventory_serial: string;
     @ViewChild('createStoreInventory', { static: false }) createStoreInventory: any;
 
-    constructor(private _localStorageService: LocalStorageService, private _modalService: ModalService, private _notificationsService: NotificationsService, private _reloadService: ReloadService) {
+    constructor(public _localStorageService: LocalStorageService, private _modalService: ModalService, private _notificationsService: NotificationsService, private _reloadService: ReloadService) {
         this.page = 1;
         this.totalRegister = 0;
         this.dataperPage = 10;
@@ -37,14 +35,12 @@ export class PrincipalListStoreInventoryComponent implements OnInit {
         this.totalRegister = this.listInventory ? this.listInventory.length : 0;
     }
 
-    public editInventory(product_serial, provider_nickname, store_code) {
-        this.product_serial = product_serial;
-        this.provider_nickname = provider_nickname;
-        this.store_code = store_code;
+    public editInventory(inventory_serial) {
+        this.inventory_serial = inventory_serial;
         this.openActionModal();
     }
-    public deleteInventory(product_serial, provider_nickname, store_code) {
-        if (this._localStorageService.deleteIventory(store_code, product_serial, provider_nickname)) {
+    public deleteInventory(inventory_serial) {
+        if (this._localStorageService.deleteIventory(inventory_serial)) {
             this._notificationsService.success('Eliminación de Inventario', 'eliminación exitosa');
             this.getAllInventorys();
         } else {

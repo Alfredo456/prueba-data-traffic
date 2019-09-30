@@ -17,7 +17,7 @@ export class PrincipalListProductComponent implements OnInit {
     public serial: string;
     @ViewChild('createProduct', { static: false }) createProduct: any;
 
-    constructor(private _localStorageService: LocalStorageService, private _modalService: ModalService, private _notificationsService: NotificationsService, private _reloadService: ReloadService) {
+    constructor(public _localStorageService: LocalStorageService, private _modalService: ModalService, private _notificationsService: NotificationsService, private _reloadService: ReloadService) {
         this.page = 1;
         this.totalRegister = 0;
         this.dataperPage = 10;
@@ -44,7 +44,7 @@ export class PrincipalListProductComponent implements OnInit {
             this._notificationsService.success('Eliminación de Producto', 'eliminación exitosa');
             this.getAllProducts();
         } else {
-            this._notificationsService.error('Eliminación de Producto', 'error');
+            this._notificationsService.error('Existen inventarios relacionados a esta producto eliminelos antes');
         }
     }
     public openActionModal() {

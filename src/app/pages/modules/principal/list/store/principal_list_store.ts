@@ -44,7 +44,7 @@ export class PrincipalListStoreComponent implements OnInit {
             this._notificationsService.success('Eliminación de Tienda', 'eliminación exitosa');
             this.getAllStores();
         } else {
-            this._notificationsService.error('Eliminación de Tienda', 'error');
+            this._notificationsService.error('Existen inventarios relacionados a esta tienda eliminelos antes');
         }
     }
     public openActionModal() {

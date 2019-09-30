@@ -5,6 +5,7 @@ import { LocalStorageService } from 'src/app/pages/shared/services/localstorage.
 import { Product } from 'src/app/pages/shared/models/product.model';
 import { NotificationsService } from 'angular2-notifications';
 import { ReloadService } from '../../services/reload.service';
+import { SELECTSETTINGS } from 'src/app/pages/shared/util/select.util';
 
 @Component({
     selector: 'app-component-principal-product-create-update',
@@ -13,6 +14,10 @@ import { ReloadService } from '../../services/reload.service';
 export class PrincipalCreateUpdateProductComponent implements OnInit {
 
     public productForm: FormGroup;
+    public selectedItem: any;
+    public setting: any;
+    public providersList: Array<any>;
+
     @Input('close') close: any;
     @Input('dismiss') dismiss: any;
     @Input('serial') serial?: any;
@@ -21,9 +26,12 @@ export class PrincipalCreateUpdateProductComponent implements OnInit {
         public _formService: FormService,
         private _localStorageService: LocalStorageService,
         private _notificationsService: NotificationsService, private _reloadService: ReloadService) {
+        this.selectedItem = null;
+        this.setting = SELECTSETTINGS;
     }
 
     ngOnInit(): void {
+        this.initializeList();
         if (this.serial) {
             this.initEditForm();
         } else {
@@ -35,6 +43,8 @@ export class PrincipalCreateUpdateProductComponent implements OnInit {
         this.productForm = this.fb.group({
             serial: [null, [Validators.required]],
             name: [null, [Validators.required]],
+            quantity: [null, [Validators.required]],
+            provider_nickname: [null, [Validators.required]],
         });
     }
 
@@ -43,8 +53,24 @@ export class PrincipalCreateUpdateProductComponent implements OnInit {
         this.productForm = this.fb.group({
             serial: [product.serial, [Validators.required]],
             name: [product.name, [Validators.required]],
+            quantity: [product.quantity, [Validators.required]],
+            provider_nickname: [this.chargeNickname(product.provider_nickname), [Validators.required]],
         });
         //this.productForm.controls['serial'].disable();
+        this.selectedItem = this.productForm.value.provider_nickname;
+    }
+
+    public initializeList() {
+        this.providersList = this._localStorageService.getAllProvider().map((item) => {
+            return {
+                id: item.nickname,
+                itemName: item.name
+            };
+        });
+    }
+
+    public chargeNickname(provider_nickname) {
+        return [this.providersList.find(x => x.id === provider_nickname)];
     }
 
     public save() {
@@ -75,6 +101,8 @@ export class PrincipalCreateUpdateProductComponent implements OnInit {
         let product = new Product();
         product.serial = this.productForm.value.serial;
         product.name = this.productForm.value.name;
+        product.quantity = this.productForm.value.quantity;
+        product.provider_nickname = this.productForm.value.provider_nickname[0].id;
         return product;
     }
 }

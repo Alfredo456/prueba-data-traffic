@@ -28,6 +28,23 @@
                         }">
         </div>
       </div>
+      <div class="col-12">
+        <div class="form-group">
+          <input type="text" formControlName="quantity" class="form-control" OnlyNumber='true' placeholder="Cantidad"
+            [ngClass]="
+                        {
+                          'is-valid': _formService.isValid(productForm, 'quantity') === true,
+                          'is-invalid': _formService.isValid(productForm, 'quantity') === false
+                        }">
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="form-group">
+          <angular2-multiselect formControlName="provider_nickname" [data]="providersList" [(ngModel)]="selectedItem"
+            [settings]="setting">
+          </angular2-multiselect>
+        </div>
+      </div>
     </div>
     <button class="btn btn-primary btn-block m-0" (click)="save()">Guardar</button>
   </form>

@@ -2,9 +2,9 @@
   <table class="table align-items-center table-flush">
     <thead class="thead-light">
       <tr>
-        <th scope="col" class="text-center">NICKNAME PROVEEDOR</th>
-        <th scope="col" class="text-center">CODIGO TIENDA</th>
-        <th scope="col" class="text-center">SERIAL PRODUCTO</th>
+        <th scope="col" class="text-center">SERIAL DE INVENTARIO</th>
+        <th scope="col" class="text-center">TIENDA</th>
+        <th scope="col" class="text-center">PRODUCTO</th>
         <th scope="col" class="text-center">CANTIDAD</th>
         <th scope="col" class="text-center">FECHA DE COMPRA</th>
         <th scope="col"></th>
@@ -20,18 +20,18 @@
       <ng-template [ngIf]="listInventory && listInventory.length > 0">
         <tr *ngFor="let inventory of listInventory | paginate:dataperPage:page">
           <td scope="row" class="text-center text-capitalize">
-            {{inventory.provider_nickname}}</td>
-          <td class="text-center text-capitalize">{{inventory.store_code}}</td>
-          <td class="text-center text-capitalize">{{inventory.product_serial}}</td>
+            {{inventory.inventory_serial}}</td>
+          <td class="text-center text-capitalize">{{_localStorageService.getStoreByCode(inventory.store_code).name}}
+          </td>
+          <td class="text-center text-capitalize">
+            {{_localStorageService.getProductsBySerial(inventory.product_serial).name}}</td>
           <td class="text-center text-capitalize">{{inventory.quantity}}</td>
           <td class="text-center text-capitalize">{{inventory.purchaseDate | date}}</td>
           <td class="d-flex justify-content-center">
-            <button class="btn btn-sm btn-primary mr-3"
-              (click)="editInventory(inventory.product_serial, inventory.provider_nickname, inventory.store_code )">
+            <button class="btn btn-sm btn-primary mr-3" (click)="editInventory(inventory.inventory_serial)">
               Editar
             </button>
-            <button class="btn btn-sm btn-primary"
-              (click)="deleteInventory(inventory.product_serial, inventory.provider_nickname, inventory.store_code )">
+            <button class="btn btn-sm btn-primary" (click)="deleteInventory(inventory.inventory_serial )">
               Eliminar
             </button>
           </td>
@@ -61,7 +61,7 @@
 
 
 <ng-template #createStoreInventory let-close="close" let-d="dismiss">
-  <app-component-principal-store-inventory-create-update [close]="close" [dismiss]="d" [store_code]=store_code
-    [provider_nickname]=provider_nickname [product_serial]=product_serial>
+  <app-component-principal-store-inventory-create-update [close]="close" [dismiss]="d"
+    [inventory_serial]="inventory_serial">
   </app-component-principal-store-inventory-create-update>
 </ng-template>

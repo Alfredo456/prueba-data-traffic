@@ -4,6 +4,8 @@
       <tr>
         <th scope="col" class="text-center">SERIAL</th>
         <th scope="col" class="text-center">NOMBRE</th>
+        <th scope="col" class="text-center">CANTIDAD</th>
+        <th scope="col" class="text-center">PROVEEDOR</th>
         <th scope="col"></th>
       </tr>
     </thead>
@@ -19,6 +21,9 @@
           <td scope="row" class="text-center text-capitalize">
             {{product.serial}}</td>
           <td class="text-center text-capitalize">{{product.name}}</td>
+          <td class="text-center text-capitalize">{{product.quantity}}</td>
+          <td class="text-center text-capitalize">
+            {{_localStorageService.getProviderByNickname(product.provider_nickname).name}}</td>
           <td class="d-flex justify-content-center">
             <button class="btn btn-sm btn-primary mr-3" (click)="editProduct(product.serial)">
               Editar

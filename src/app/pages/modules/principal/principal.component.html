@@ -8,7 +8,8 @@
             <div class="row">
               <div class="col">
                 <ng-template [ngIf]="entitiesList && entitiesList.length > 0 ">
-                  <angular2-multiselect [data]="entitiesList" [(ngModel)]="selectedItem" [settings]="setting">
+                  <angular2-multiselect [data]="entitiesList" [(ngModel)]="selectedItem" (onSelect)="select($event)"
+                    [settings]="setting">
                   </angular2-multiselect>
                 </ng-template>
               </div>

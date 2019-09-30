@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Product } from '../models/product.model';
-import * as _ from 'lodash';
 import { Provider } from '../models/provider.model';
 import { Store } from '../models/store.model';
 import { StoreInventory } from '../models/store_inventory.model';
@@ -47,6 +46,8 @@ export class LocalStorageService {
             listProducts.forEach(element => {
                 if (element.serial === product.serial) {
                     element.name = product.name;
+                    element.provider_nickname = product.provider_nickname;
+                    element.quantity = product.quantity;
                 }
             });
             localStorage.setItem('PRODUCT', JSON.stringify(listProducts));
@@ -54,8 +55,26 @@ export class LocalStorageService {
         }
         return false;
     }
+
+    public updateQuantityProduct(quantity: number, serial: string): Boolean {
+        if (localStorage.getItem('PRODUCT')) {
+            const listProducts = JSON.parse(localStorage.getItem('PRODUCT'));
+            listProducts.forEach(element => {
+                if (element.serial === serial) {
+                    element.quantity = element.quantity - quantity;
+                }
+            });
+            localStorage.setItem('PRODUCT', JSON.stringify(listProducts));
+            return true;
+        }
+        return false;
+    }
+
     public deleteProduct(serial: string): Boolean {
         if (localStorage.getItem('PRODUCT')) {
+            if (this.thereProductInInventory(serial)) {
+                return false;
+            }
             const listProducts = JSON.parse(localStorage.getItem('PRODUCT'));
             listProducts.splice(listProducts.findIndex(x => x.serial === serial), 1);
             localStorage.setItem('PRODUCT', JSON.stringify(listProducts));
@@ -113,6 +132,9 @@ export class LocalStorageService {
     }
     public deleteProvider(nickname: string): Boolean {
         if (localStorage.getItem('PROVIDER')) {
+            if (this.thereProviderInProduct(nickname)) {
+                return false;
+            }
             const listProviders = JSON.parse(localStorage.getItem('PROVIDER'));
             listProviders.splice(listProviders.findIndex(x => x.nickname === nickname), 1);
             localStorage.setItem('PROVIDER', JSON.stringify(listProviders));
@@ -170,6 +192,9 @@ export class LocalStorageService {
     }
     public deleteStore(code: string): Boolean {
         if (localStorage.getItem('STORE')) {
+            if (this.thereStorageInInventory(code)) {
+                return false;
+            }
             const listStores = JSON.parse(localStorage.getItem('STORE'));
             listStores.splice(listStores.findIndex(x => x.code === code), 1);
             localStorage.setItem('STORE', JSON.stringify(listStores));
@@ -179,9 +204,10 @@ export class LocalStorageService {
     }
 
     public setInventory(inventory: StoreInventory): Boolean {
+        this.updateQuantityProduct(inventory.quantity, inventory.product_serial);
         if (localStorage.getItem('STORE_INVENTORY')) {
             let listStoresInventory = JSON.parse(localStorage.getItem('STORE_INVENTORY'));
-            if (listStoresInventory.find(x => ((x.store_code === inventory.store_code) && (x.product_serial === inventory.product_serial) && (x.provider_nickname === inventory.provider_nickname)))) {
+            if (listStoresInventory.find(x => x.inventory_serial === inventory.inventory_serial)) {
                 return false;
             } else {
                 listStoresInventory.push(inventory);
@@ -201,10 +227,10 @@ export class LocalStorageService {
         }
     }
 
-    public getInventoryById(store_code: string, product_serial: string, provider_nickname: string): StoreInventory {
+    public getInventoryById(inventory_serial: string): StoreInventory {
         if (localStorage.getItem('STORE_INVENTORY')) {
             const listStoresInventory = JSON.parse(localStorage.getItem('STORE_INVENTORY'));
-            return listStoresInventory.find(x => ((x.store_code === store_code) && (x.product_serial === product_serial) && (x.provider_nickname === provider_nickname)));
+            return listStoresInventory.find(x => x.inventory_serial === inventory_serial);
         }
     }
 
@@ -212,9 +238,11 @@ export class LocalStorageService {
         if (localStorage.getItem('STORE_INVENTORY')) {
             const listStoresInventory = JSON.parse(localStorage.getItem('STORE_INVENTORY'));
             listStoresInventory.forEach(element => {
-                if (element.store_code === inventory.store_code && element.product_serial === inventory.product_serial && element.provider_nickname === inventory.provider_nickname) {
+                if (element.inventory_serial === inventory.inventory_serial) {
                     element.quantity = inventory.quantity;
                     element.purchaseDate = inventory.purchaseDate;
+                    element.store_code = inventory.store_code;
+                    element.product_serial = inventory.product_serial;
                 }
             });
             localStorage.setItem('STORE_INVENTORY', JSON.stringify(listStoresInventory));
@@ -222,12 +250,63 @@ export class LocalStorageService {
         }
         return false;
     }
-    public deleteIventory(store_code: string, product_serial: string, provider_nickname: string): Boolean {
+    public deleteIventory(inventory_serial: string): Boolean {
         if (localStorage.getItem('STORE_INVENTORY')) {
             const listStoresInventory = JSON.parse(localStorage.getItem('STORE_INVENTORY'));
-            listStoresInventory.splice(listStoresInventory.findIndex(x => ((x.store_code === store_code) && (x.product_serial === product_serial) && (x.provider_nickname === provider_nickname))), 1);
+            listStoresInventory.splice(listStoresInventory.findIndex(x => x.inventory_serial === inventory_serial), 1);
             localStorage.setItem('STORE_INVENTORY', JSON.stringify(listStoresInventory));
             return true;
+        }
+        return false;
+    }
+
+    public thereProduct(): Boolean {
+        if (localStorage.getItem('PRODUCT') && JSON.parse(localStorage.getItem('PRODUCT')).length > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public thereProvider(): Boolean {
+        if (localStorage.getItem('PROVIDER') && JSON.parse(localStorage.getItem('PROVIDER')).length > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public thereStore(): Boolean {
+        if (localStorage.getItem('STORE') && JSON.parse(localStorage.getItem('STORE')).length > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public thereProviderInProduct(nickname: string): Boolean {
+        if (localStorage.getItem('PRODUCT') && JSON.parse(localStorage.getItem('PRODUCT')).length > 0) {
+            let productList = JSON.parse(localStorage.getItem('PRODUCT'));
+            if (productList.find(x => x.provider_nickname === nickname)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public thereProductInInventory(serial: string): Boolean {
+        if (localStorage.getItem('STORE_INVENTORY') && JSON.parse(localStorage.getItem('STORE_INVENTORY')).length > 0) {
+            let inventoryList = JSON.parse(localStorage.getItem('STORE_INVENTORY'));
+            if (inventoryList.find(x => x.product_serial === serial)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public thereStorageInInventory(code: string): Boolean {
+        if (localStorage.getItem('STORE_INVENTORY') && JSON.parse(localStorage.getItem('STORE_INVENTORY')).length > 0) {
+            let inventoryList = JSON.parse(localStorage.getItem('STORE_INVENTORY'));
+            if (inventoryList.find(x => x.store_code === code)) {
+                return true;
+            }
         }
         return false;
     }

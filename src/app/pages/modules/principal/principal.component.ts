@@ -16,8 +16,8 @@ export class PrincipalComponent {
             { id: 1, itemName: 'Producto' },
             { id: 2, itemName: 'Proveedor' },
             { id: 3, itemName: 'Tienda' },
-            { id: 4, itemName: 'Inventario' }
         ];
+        // { id: 4, itemName: 'Inventario' }
         this.setting = SELECTSETTINGS;
         this.selectedItem = null;
     }

@@ -24,6 +24,12 @@
                     (click)="_modalService.openModal(createProvider, { keyboard: false, backdrop:'static'})">CREAR</button>
                 </div>
               </ng-template>
+              <ng-template [ngIf]="selectedItem && selectedItem[0] && selectedItem[0].id === 3">
+                <div class="col">
+                  <button class="btn btn-simple btn-sm btn-block"
+                    (click)="_modalService.openModal(createStore, { keyboard: false, backdrop:'static'})">CREAR</button>
+                </div>
+              </ng-template>
             </div>
           </div>
           <ng-template [ngIf]="selectedItem && selectedItem[0] && selectedItem[0].id === 1">
@@ -33,10 +39,7 @@
             <app-component-principal-provider-list></app-component-principal-provider-list>
           </ng-template>
           <ng-template [ngIf]="selectedItem && selectedItem[0] && selectedItem[0].id === 3">
-            <app-component-principal-product-list></app-component-principal-product-list>
-          </ng-template>
-          <ng-template [ngIf]="selectedItem && selectedItem[0] && selectedItem[0].id === 4">
-            <app-component-principal-product-list></app-component-principal-product-list>
+            <app-component-principal-store-list></app-component-principal-store-list>
           </ng-template>
         </ng-template>
       </div>
@@ -52,4 +55,9 @@
 <ng-template #createProvider let-close="close" let-d="dismiss">
   <app-component-principal-provider-create-update [close]="close" [dismiss]="d">
   </app-component-principal-provider-create-update>
+</ng-template>
+
+<ng-template #createStore let-close="close" let-d="dismiss">
+  <app-component-principal-store-create-update [close]="close" [dismiss]="d">
+  </app-component-principal-store-create-update>
 </ng-template>

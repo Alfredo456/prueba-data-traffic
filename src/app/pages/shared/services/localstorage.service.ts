@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Product } from '../models/product.model';
 import * as _ from 'lodash';
 import { Provider } from '../models/provider.model';
+import { Store } from '../models/store.model';
 
 @Injectable()
 export class LocalStorageService {
@@ -62,6 +63,8 @@ export class LocalStorageService {
         return false;
     }
 
+
+
     public setProvider(provider: Provider): Boolean {
         if (localStorage.getItem('PROVIDER')) {
             let listProviders = JSON.parse(localStorage.getItem('PROVIDER'));
@@ -112,6 +115,63 @@ export class LocalStorageService {
             const listProviders = JSON.parse(localStorage.getItem('PROVIDER'));
             listProviders.splice(listProviders.findIndex(x => x.nickname === nickname), 1);
             localStorage.setItem('PROVIDER', JSON.stringify(listProviders));
+            return true;
+        }
+        return false;
+    }
+
+
+
+
+    public setStore(store: Store): Boolean {
+        if (localStorage.getItem('STORE')) {
+            let listStores = JSON.parse(localStorage.getItem('STORE'));
+            if (listStores.find(x => x.code === store.code)) {
+                return false;
+            } else {
+                listStores.push(store);
+                localStorage.setItem('STORE', JSON.stringify(listStores));
+                return true;
+            }
+        } else {
+            localStorage.setItem('STORE', JSON.stringify([store]));
+            return true;
+        }
+    }
+
+    public getAllStore(): Array<Store> {
+        if (localStorage.getItem('STORE')) {
+            const listStores = JSON.parse(localStorage.getItem('STORE'));
+            return listStores;
+        }
+    }
+
+    public getStoreByCode(code: string): Store {
+        if (localStorage.getItem('STORE')) {
+            const listStores = JSON.parse(localStorage.getItem('STORE'));
+            return listStores.find(x => x.code === code);
+        }
+    }
+
+    public updateStore(store: Store): Boolean {
+        if (localStorage.getItem('STORE')) {
+            const listStores = JSON.parse(localStorage.getItem('STORE'));
+            listStores.forEach(element => {
+                if (element.code === store.code) {
+                    element.name = store.name;
+                    element.address = store.address;
+                }
+            });
+            localStorage.setItem('STORE', JSON.stringify(listStores));
+            return true;
+        }
+        return false;
+    }
+    public deleteStore(code: string): Boolean {
+        if (localStorage.getItem('STORE')) {
+            const listStores = JSON.parse(localStorage.getItem('STORE'));
+            listStores.splice(listStores.findIndex(x => x.code === code), 1);
+            localStorage.setItem('STORE', JSON.stringify(listStores));
             return true;
         }
         return false;

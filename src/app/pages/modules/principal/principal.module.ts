@@ -10,6 +10,8 @@ import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 import { ReloadService } from './services/reload.service';
 import { PrincipalCreateUpdateProviderComponent } from './create_update/provider/principal_create_update_provider';
 import { PrincipalListProviderComponent } from './list/provider/principal_list_provider';
+import { PrincipalCreateUpdateStoreComponent } from './create_update/store/principal_create_update_store';
+import { PrincipalListStoreComponent } from './list/store/principal_list_store';
 
 
 @NgModule({
@@ -18,7 +20,9 @@ import { PrincipalListProviderComponent } from './list/provider/principal_list_p
         PrincipalListProductComponent,
         PrincipalCreateUpdateProductComponent,
         PrincipalCreateUpdateProviderComponent,
-        PrincipalListProviderComponent
+        PrincipalListProviderComponent,
+        PrincipalCreateUpdateStoreComponent,
+        PrincipalListStoreComponent,
     ],
     imports: [
         CommonModule,

@@ -48,6 +48,8 @@ export class PrincipalCreateUpdateProviderComponent implements OnInit {
 
     public initEditForm() {
         const provider = this._localStorageService.getProviderByNickname(this.nickname);
+        const date: Date = new Date(provider.birthDate);
+        this.fromDate = { day: date.getDate(), month: date.getMonth() + 1, year: date.getFullYear() };
         this.providerForm = this.fb.group({
             nickname: [provider.nickname, [Validators.required]],
             name: [provider.name, [Validators.required]],

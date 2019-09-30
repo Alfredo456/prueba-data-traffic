@@ -1,6 +1,9 @@
 <div class="modal-header">
-  <button type="button" class="" aria-label="Close" (click)="dismiss('Cross click')">
+  <!-- <button type="button" class="" aria-label="Close" (click)="dismiss('Cross click')">
     X
+  </button> -->
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
   </button>
 </div>
 <div class="modal-body">
@@ -10,69 +13,27 @@
   <p class="subtitle">
     PRUEBA
   </p>
-  <!-- <form [formGroup]="form">
+  <form [formGroup]="productForm">
     <div class="row form-contact">
       <div class="col-12">
-        <div class="form-group" [ngClass]="
-                    {
-                      'has-success': validForm(form, 'fullname'),
-                      'has-danger': invalidForm(form, 'fullname')
-                    }">
-          <input type="text" formControlName="fullname" class="form-control" placeholder="{{pageText.PLACEHOLDER_NAME}}"
-            [attr.disabled]="loader ? loader : null" [ngClass]="
+        <div class="form-group">
+          <input type="text" formControlName="serial" class="form-control" placeholder="Serial" [ngClass]="
                       {
-                        'form-control-success': validForm(form, 'fullname'),
-                        'form-control-danger': invalidForm(form, 'fullname')
-                      }" letterOnly>
-        </div>
-      </div>
-      <div class="col-6 pr-1">
-        <div class="form-group" [ngClass]="
-          {
-              'has-success-ngselect': validForm(form, 'phoneCountry'),
-              'has-danger-ngselect': invalidForm(form, 'phoneCountry')
-          }">
-          <ng-select (change)="changePhoneCountry($event)" [items]="listCountries" bindLabel="name"
-            formControlName="phoneCountry" bindValue="id" placeholder="{{pageText.PLACEHOLDER_PHONE_CODE}}">
-            <ng-template ng-label-tmp let-item="item">
-              <img height="15" width="21.81" [src]="item.avatar" />
-              {{item.shortName}}
-            </ng-template>
-            <ng-template ng-option-tmp let-item="item" let-index="index">
-              <img height="15" width="21.81" [src]="item.avatar" />
-              {{item.name}}
-            </ng-template>
-          </ng-select>
-        </div>
-      </div>
-      <div class="col-6 pl-1">
-        <div class="form-group" [ngClass]="
-                    {
-                      'has-success': validForm(form, 'phone'),
-                      'has-danger': invalidForm(form, 'phone')
-                    }">
-          <input type="text" formControlName="phone" class="form-control"
-            placeholder="{{pageText.PLACEHOLDER_PHONE_NUMBER}}" OnlyNumber='true'
-            [attr.disabled]="loader ? loader : null" [ngClass]="
-                      {
-                        'form-control-success': validForm(form, 'phone'),
-                        'form-control-danger': invalidForm(form, 'phone')
+                        'is-valid': _formService.isValid(productForm, 'serial') === true,
+                        'is-invalid': _formService.isValid(productForm, 'serial') === false
                       }">
         </div>
       </div>
       <div class="col-12">
-        <div class="form-group" [ngClass]="
-            {
-                'has-success-multiselect': validForm(form, 'description'),
-                'has-danger-multiselect': invalidForm(form, 'description')
-            }">
-          <angular2-multiselect [data]="timeList" formControlName="description"
-            [settings]="loader ? disabledSettings : listSettings">
-          </angular2-multiselect>
+        <div class="form-group">
+          <input type="text" formControlName="name" class="form-control" placeholder="Nombre" [ngClass]="
+                        {
+                          'is-valid': _formService.isValid(productForm, 'name') === true,
+                          'is-invalid': _formService.isValid(productForm, 'name') === false
+                        }">
         </div>
       </div>
     </div>
-    <button class="btn btn-primary btn-block m-0" (click)="continue()"
-      [disabled]="loader">{{ !loader ? pageText.BUTTON1_1 : pageText.BUTTON1_2}}</button>
-  </form> -->
+    <button class="btn btn-primary btn-block m-0" (click)="save()">Crear</button>
+  </form>
 </div>

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { LocalStorageService } from './services/localstorage.service';
 import { ModalService } from './services/modal.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormService } from './services/form.service';
 
 @NgModule({
     declarations: [
@@ -11,7 +12,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     ],
     providers: [
         LocalStorageService,
-        ModalService
+        ModalService,
+        FormService
     ],
     bootstrap: []
 })

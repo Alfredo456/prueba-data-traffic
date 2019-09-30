@@ -27,7 +27,7 @@ export class PrincipalListProductComponent implements OnInit {
         this.getAllProducts();
         this._productService.reload.subscribe(values => {
             this.getAllProducts();
-          });
+        });
     }
 
     public getAllProducts() {

@@ -44,7 +44,7 @@ export class PrincipalCreateUpdateProductComponent implements OnInit {
             serial: [product.serial, [Validators.required]],
             name: [product.name, [Validators.required]],
         });
-        this.productForm.controls['serial'].disable();
+        //this.productForm.controls['serial'].disable();
     }
 
     public save() {
@@ -71,6 +71,7 @@ export class PrincipalCreateUpdateProductComponent implements OnInit {
     }
 
     public formatForm(): Product {
+        //this.productForm.controls['serial'].enable();
         let product = new Product();
         product.serial = this.productForm.value.serial;
         product.name = this.productForm.value.name;

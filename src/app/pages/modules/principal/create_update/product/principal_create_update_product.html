@@ -11,7 +11,8 @@
     <div class="row form-contact">
       <div class="col-12">
         <div class="form-group">
-          <input type="text" formControlName="serial" class="form-control" placeholder="Serial" [ngClass]="
+          <input type="text" formControlName="serial" class="form-control" [attr.disabled]="serial ? true : null"
+            placeholder="Serial" [ngClass]="
                       {
                         'is-valid': _formService.isValid(productForm, 'serial') === true,
                         'is-invalid': _formService.isValid(productForm, 'serial') === false

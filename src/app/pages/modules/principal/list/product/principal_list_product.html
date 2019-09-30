@@ -8,26 +8,19 @@
       </tr>
     </thead>
     <tbody>
-      <ng-template [ngIf]="false">
-        <tr>
-          <td class="text-center" colspan="100">
-            <!-- <sk-circle></sk-circle> -->
-          </td>
-        </tr>
-      </ng-template>
-      <ng-template [ngIf]="!listProducts">
+      <ng-template [ngIf]="!listProducts || listProducts.length ===0">
         <tr>
           <td class="text-center" colspan="100">
             SIN REGISTRO DE PRODUCTOS</td>
         </tr>
       </ng-template>
-      <ng-template [ngIf]="listProducts">
-        <tr *ngFor="let product of listProducts; let i = index">
+      <ng-template [ngIf]="listProducts && listProducts.length > 0">
+        <tr *ngFor="let product of listProducts | paginate:dataperPage:page">
           <td scope="row" class="text-center text-capitalize">
             {{product.serial}}</td>
           <td class="text-center text-capitalize">{{product.name}}</td>
           <td class="d-flex justify-content-center">
-            <button class="btn btn-sm btn-primary" (click)="editProduct(product.serial)">
+            <button class="btn btn-sm btn-primary mr-3" (click)="editProduct(product.serial)">
               Editar
             </button>
             <button class="btn btn-sm btn-primary" (click)="deleteProduct(product.serial)">
@@ -39,7 +32,7 @@
     </tbody>
   </table>
 </div>
-<ng-template [ngIf]="listProducts">
+<ng-template [ngIf]="listProducts && listProducts.length > 0">
   <div class="card-footer pt-4">
     <div class="form-group row">
       <div class="col d-flex justify-content-start align-items-center row mb-3">

@@ -2,9 +2,8 @@
   <table class="table align-items-center table-flush">
     <thead class="thead-light">
       <tr>
-        <th scope="col" class="text-center">PRUEBA</th>
-        <th scope="col" class="text-center">PRUEBA</th>
-        <th scope="col" class="text-right">PRUEBA</th>
+        <th scope="col" class="text-center">SERIAL</th>
+        <th scope="col" class="text-center">NOMBRE</th>
         <th scope="col"></th>
       </tr>
     </thead>
@@ -16,21 +15,23 @@
           </td>
         </tr>
       </ng-template>
-      <ng-template [ngIf]="true">
+      <ng-template [ngIf]="!listProducts">
         <tr>
           <td class="text-center" colspan="100">
-            SIN REGISTRO DE PRUEBA</td>
+            SIN REGISTRO DE PRODUCTOS</td>
         </tr>
       </ng-template>
-      <ng-template [ngIf]="false">
-        <tr *ngFor="let lead of leads; let i = index">
+      <ng-template [ngIf]="listProducts">
+        <tr *ngFor="let product of listProducts; let i = index">
           <td scope="row" class="text-center text-capitalize">
-            PRUEBA</td>
-          <td class="text-center text-capitalize">PRUEBA</td>
-          <td class="text-right">PRUEBA</td>
+            {{product.serial}}</td>
+          <td class="text-center text-capitalize">{{product.name}}</td>
           <td class="d-flex justify-content-center">
-            <button class="btn btn-sm btn-primary">
-              PRUEBA
+            <button class="btn btn-sm btn-primary" (click)="editProduct(product.serial)">
+              Editar
+            </button>
+            <button class="btn btn-sm btn-primary" (click)="deleteProduct(product.serial)">
+              Eliminar
             </button>
           </td>
         </tr>
@@ -38,19 +39,27 @@
     </tbody>
   </table>
 </div>
-<div class="card-footer pt-4">
-  <div class="form-group row">
-    <div class="col d-flex justify-content-start align-items-center row mb-3">
-      <span class="col col-lg-4 pr-0"><b>PRUEBA</b> </span>
-      <select class="col col-lg-3 form-control">
-        <option *ngFor="let limit of [10, 20, 30, 40, 50]"> {{limit}}</option>
-      </select>
-    </div>
-    <div class="w-100 d-sm-none d-block"></div>
-    <div class="col d-flex justify-content-center justify-content-md-end">
-      <ngb-pagination [boundaryLinks]="true" [maxSize]="1" [collectionSize]="totalRegister" [(page)]="currentPage"
-        [pageSize]="dataperPage">
-      </ngb-pagination>
+<ng-template [ngIf]="listProducts">
+  <div class="card-footer pt-4">
+    <div class="form-group row">
+      <div class="col d-flex justify-content-start align-items-center row mb-3">
+        <span class="col col-lg-4 pr-0"><b>Registros por página:</b> </span>
+        <select [(ngModel)]="dataperPage" class="col col-lg-3 form-control" (change)="getAllProducts()">
+          <option *ngFor="let limit of [10, 20, 30, 40, 50]"> {{limit}}</option>
+        </select>
+      </div>
+      <div class="w-100 d-sm-none d-block"></div>
+      <div class="col d-flex justify-content-center justify-content-md-end">
+        <ngb-pagination [boundaryLinks]="true" [maxSize]="1" [collectionSize]="totalRegister" [(page)]="page"
+          [pageSize]="dataperPage" (pageChange)="getAllProducts()">
+        </ngb-pagination>
+      </div>
     </div>
   </div>
-</div>
+</ng-template>
+
+
+<ng-template #createProduct let-close="close" let-d="dismiss">
+  <app-component-principal-product-create-update [close]="close" [dismiss]="d" [serial]=serial>
+  </app-component-principal-product-create-update>
+</ng-template>

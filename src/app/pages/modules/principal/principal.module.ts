@@ -7,6 +7,7 @@ import { SharedModule } from '../../shared/shared.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
+import { ProductService } from './services/product.service';
 
 
 @NgModule({
@@ -23,7 +24,7 @@ import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
         ReactiveFormsModule,
         FormsModule
     ],
-    providers: [],
+    providers: [ProductService],
     bootstrap: []
 })
 export class PrincipalModule { }

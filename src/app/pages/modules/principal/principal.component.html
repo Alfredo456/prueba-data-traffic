@@ -30,6 +30,12 @@
                     (click)="_modalService.openModal(createStore, { keyboard: false, backdrop:'static'})">CREAR</button>
                 </div>
               </ng-template>
+              <ng-template [ngIf]="selectedItem && selectedItem[0] && selectedItem[0].id === 4">
+                <div class="col">
+                  <button class="btn btn-simple btn-sm btn-block"
+                    (click)="_modalService.openModal(createInventory, { keyboard: false, backdrop:'static'})">CREAR</button>
+                </div>
+              </ng-template>
             </div>
           </div>
           <ng-template [ngIf]="selectedItem && selectedItem[0] && selectedItem[0].id === 1">
@@ -40,6 +46,9 @@
           </ng-template>
           <ng-template [ngIf]="selectedItem && selectedItem[0] && selectedItem[0].id === 3">
             <app-component-principal-store-list></app-component-principal-store-list>
+          </ng-template>
+          <ng-template [ngIf]="selectedItem && selectedItem[0] && selectedItem[0].id === 4">
+            <app-component-principal-storeInventory-list></app-component-principal-storeInventory-list>
           </ng-template>
         </ng-template>
       </div>
@@ -60,4 +69,9 @@
 <ng-template #createStore let-close="close" let-d="dismiss">
   <app-component-principal-store-create-update [close]="close" [dismiss]="d">
   </app-component-principal-store-create-update>
+</ng-template>
+
+<ng-template #createInventory let-close="close" let-d="dismiss">
+  <app-component-principal-store-inventory-create-update [close]="close" [dismiss]="d">
+  </app-component-principal-store-inventory-create-update>
 </ng-template>

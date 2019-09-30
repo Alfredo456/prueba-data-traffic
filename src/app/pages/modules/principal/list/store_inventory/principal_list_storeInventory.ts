@@ -1,0 +1,57 @@
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { LocalStorageService } from 'src/app/pages/shared/services/localstorage.service';
+import { ModalService } from 'src/app/pages/shared/services/modal.service';
+import { NotificationsService } from 'angular2-notifications';
+import { ReloadService } from '../../services/reload.service';
+import { StoreInventory } from 'src/app/pages/shared/models/store_inventory.model';
+
+@Component({
+    selector: 'app-component-principal-storeInventory-list',
+    templateUrl: 'principal_list_storeInventory.html'
+})
+export class PrincipalListStoreInventoryComponent implements OnInit {
+    public listInventory: Array<StoreInventory>;
+    public totalRegister: number;
+    public page: number;
+    public dataperPage: number;
+    public product_serial: string;
+    public provider_nickname: string;
+    public store_code: string;
+    @ViewChild('createStoreInventory', { static: false }) createStoreInventory: any;
+
+    constructor(private _localStorageService: LocalStorageService, private _modalService: ModalService, private _notificationsService: NotificationsService, private _reloadService: ReloadService) {
+        this.page = 1;
+        this.totalRegister = 0;
+        this.dataperPage = 10;
+    }
+
+    ngOnInit(): void {
+        this.getAllInventorys();
+        this._reloadService.reload.subscribe(values => {
+            this.getAllInventorys();
+        });
+    }
+
+    public getAllInventorys() {
+        this.listInventory = this._localStorageService.getAllIventory();
+        this.totalRegister = this.listInventory ? this.listInventory.length : 0;
+    }
+
+    public editInventory(product_serial, provider_nickname, store_code) {
+        this.product_serial = product_serial;
+        this.provider_nickname = provider_nickname;
+        this.store_code = store_code;
+        this.openActionModal();
+    }
+    public deleteInventory(product_serial, provider_nickname, store_code) {
+        if (this._localStorageService.deleteIventory(store_code, product_serial, provider_nickname)) {
+            this._notificationsService.success('Eliminación de Inventario', 'eliminación exitosa');
+            this.getAllInventorys();
+        } else {
+            this._notificationsService.error('Eliminación de Inventario', 'error');
+        }
+    }
+    public openActionModal() {
+        this._modalService.openModal(this.createStoreInventory, { keyboard: false, backdrop: 'static' });
+    }
+}

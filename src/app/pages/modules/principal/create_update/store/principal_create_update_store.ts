@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
 import { FormService } from 'src/app/pages/shared/services/form.service';
 import { LocalStorageService } from 'src/app/pages/shared/services/localstorage.service';
 import { Store } from 'src/app/pages/shared/models/store.model';
@@ -13,6 +13,7 @@ import { ReloadService } from '../../services/reload.service';
 export class PrincipalCreateUpdateStoreComponent implements OnInit {
 
     public storeForm: FormGroup;
+    public products: FormArray;
     @Input('close') close: any;
     @Input('dismiss') dismiss: any;
     @Input('code') code?: any;
@@ -36,6 +37,7 @@ export class PrincipalCreateUpdateStoreComponent implements OnInit {
             code: [null, [Validators.required]],
             name: [null, [Validators.required]],
             address: [null, [Validators.required]],
+            //products: this.fb.array([this.createProduct()])
         });
     }
 
@@ -47,6 +49,19 @@ export class PrincipalCreateUpdateStoreComponent implements OnInit {
             address: [store.address, [Validators.required]],
         });
         //this.storeForm.controls['code'].disable();
+    }
+
+    public createProduct(): FormGroup {
+        return this.fb.group({
+            serial: '',
+            name: '',
+            quantity: ''
+        });
+    }
+
+    addProduct(): void {
+        this.products = this.storeForm.get('products') as FormArray;
+        this.products.push(this.createProduct());
     }
 
     public save() {

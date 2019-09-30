@@ -12,6 +12,8 @@ import { PrincipalCreateUpdateProviderComponent } from './create_update/provider
 import { PrincipalListProviderComponent } from './list/provider/principal_list_provider';
 import { PrincipalCreateUpdateStoreComponent } from './create_update/store/principal_create_update_store';
 import { PrincipalListStoreComponent } from './list/store/principal_list_store';
+import { PrincipalCreateUpdateStoreInventoryComponent } from './create_update/store_inventory/principal_create_update_storeInventory';
+import { PrincipalListStoreInventoryComponent } from './list/store_inventory/principal_list_storeInventory';
 
 
 @NgModule({
@@ -23,6 +25,8 @@ import { PrincipalListStoreComponent } from './list/store/principal_list_store';
         PrincipalListProviderComponent,
         PrincipalCreateUpdateStoreComponent,
         PrincipalListStoreComponent,
+        PrincipalCreateUpdateStoreInventoryComponent,
+        PrincipalListStoreInventoryComponent
     ],
     imports: [
         CommonModule,

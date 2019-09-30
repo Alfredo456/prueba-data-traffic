@@ -3,6 +3,7 @@ import { Product } from '../models/product.model';
 import * as _ from 'lodash';
 import { Provider } from '../models/provider.model';
 import { Store } from '../models/store.model';
+import { StoreInventory } from '../models/store_inventory.model';
 
 @Injectable()
 export class LocalStorageService {
@@ -172,6 +173,60 @@ export class LocalStorageService {
             const listStores = JSON.parse(localStorage.getItem('STORE'));
             listStores.splice(listStores.findIndex(x => x.code === code), 1);
             localStorage.setItem('STORE', JSON.stringify(listStores));
+            return true;
+        }
+        return false;
+    }
+
+    public setInventory(inventory: StoreInventory): Boolean {
+        if (localStorage.getItem('STORE_INVENTORY')) {
+            let listStoresInventory = JSON.parse(localStorage.getItem('STORE_INVENTORY'));
+            if (listStoresInventory.find(x => ((x.store_code === inventory.store_code) && (x.product_serial === inventory.product_serial) && (x.provider_nickname === inventory.provider_nickname)))) {
+                return false;
+            } else {
+                listStoresInventory.push(inventory);
+                localStorage.setItem('STORE_INVENTORY', JSON.stringify(listStoresInventory));
+                return true;
+            }
+        } else {
+            localStorage.setItem('STORE_INVENTORY', JSON.stringify([inventory]));
+            return true;
+        }
+    }
+
+    public getAllIventory(): Array<StoreInventory> {
+        if (localStorage.getItem('STORE_INVENTORY')) {
+            const listStoresInventory = JSON.parse(localStorage.getItem('STORE_INVENTORY'));
+            return listStoresInventory;
+        }
+    }
+
+    public getInventoryById(store_code: string, product_serial: string, provider_nickname: string): StoreInventory {
+        if (localStorage.getItem('STORE_INVENTORY')) {
+            const listStoresInventory = JSON.parse(localStorage.getItem('STORE_INVENTORY'));
+            return listStoresInventory.find(x => ((x.store_code === store_code) && (x.product_serial === product_serial) && (x.provider_nickname === provider_nickname)));
+        }
+    }
+
+    public updateIventory(inventory: StoreInventory): Boolean {
+        if (localStorage.getItem('STORE_INVENTORY')) {
+            const listStoresInventory = JSON.parse(localStorage.getItem('STORE_INVENTORY'));
+            listStoresInventory.forEach(element => {
+                if (element.store_code === inventory.store_code && element.product_serial === inventory.product_serial && element.provider_nickname === inventory.provider_nickname) {
+                    element.quantity = inventory.quantity;
+                    element.purchaseDate = inventory.purchaseDate;
+                }
+            });
+            localStorage.setItem('STORE_INVENTORY', JSON.stringify(listStoresInventory));
+            return true;
+        }
+        return false;
+    }
+    public deleteIventory(store_code: string, product_serial: string, provider_nickname: string): Boolean {
+        if (localStorage.getItem('STORE_INVENTORY')) {
+            const listStoresInventory = JSON.parse(localStorage.getItem('STORE_INVENTORY'));
+            listStoresInventory.splice(listStoresInventory.findIndex(x => ((x.store_code === store_code) && (x.product_serial === product_serial) && (x.provider_nickname === provider_nickname))), 1);
+            localStorage.setItem('STORE_INVENTORY', JSON.stringify(listStoresInventory));
             return true;
         }
         return false;

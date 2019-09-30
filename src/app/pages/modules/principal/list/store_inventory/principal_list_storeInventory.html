@@ -1,0 +1,67 @@
+<div class="table-responsive">
+  <table class="table align-items-center table-flush">
+    <thead class="thead-light">
+      <tr>
+        <th scope="col" class="text-center">NICKNAME PROVEEDOR</th>
+        <th scope="col" class="text-center">CODIGO TIENDA</th>
+        <th scope="col" class="text-center">SERIAL PRODUCTO</th>
+        <th scope="col" class="text-center">CANTIDAD</th>
+        <th scope="col" class="text-center">FECHA DE COMPRA</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-template [ngIf]="!listInventory || listInventory.length ===0">
+        <tr>
+          <td class="text-center" colspan="100">
+            SIN REGISTRO DE INVENTARIOS</td>
+        </tr>
+      </ng-template>
+      <ng-template [ngIf]="listInventory && listInventory.length > 0">
+        <tr *ngFor="let inventory of listInventory | paginate:dataperPage:page">
+          <td scope="row" class="text-center text-capitalize">
+            {{inventory.provider_nickname}}</td>
+          <td class="text-center text-capitalize">{{inventory.store_code}}</td>
+          <td class="text-center text-capitalize">{{inventory.product_serial}}</td>
+          <td class="text-center text-capitalize">{{inventory.quantity}}</td>
+          <td class="text-center text-capitalize">{{inventory.purchaseDate | date}}</td>
+          <td class="d-flex justify-content-center">
+            <button class="btn btn-sm btn-primary mr-3"
+              (click)="editInventory(inventory.product_serial, inventory.provider_nickname, inventory.store_code )">
+              Editar
+            </button>
+            <button class="btn btn-sm btn-primary"
+              (click)="deleteInventory(inventory.product_serial, inventory.provider_nickname, inventory.store_code )">
+              Eliminar
+            </button>
+          </td>
+        </tr>
+      </ng-template>
+    </tbody>
+  </table>
+</div>
+<ng-template [ngIf]="listInventory && listInventory.length > 0">
+  <div class="card-footer pt-4">
+    <div class="form-group row">
+      <div class="col d-flex justify-content-start align-items-center row mb-3">
+        <span class="col col-lg-4 pr-0"><b>Registros por página:</b> </span>
+        <select [(ngModel)]="dataperPage" class="col col-lg-3 form-control" (change)="getAllInventorys()">
+          <option *ngFor="let limit of [10, 20, 30, 40, 50]"> {{limit}}</option>
+        </select>
+      </div>
+      <div class="w-100 d-sm-none d-block"></div>
+      <div class="col d-flex justify-content-center justify-content-md-end">
+        <ngb-pagination [boundaryLinks]="true" [maxSize]="1" [collectionSize]="totalRegister" [(page)]="page"
+          [pageSize]="dataperPage" (pageChange)="getAllInventorys()">
+        </ngb-pagination>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+
+<ng-template #createStoreInventory let-close="close" let-d="dismiss">
+  <app-component-principal-store-inventory-create-update [close]="close" [dismiss]="d" [store_code]=store_code
+    [provider_nickname]=provider_nickname [product_serial]=product_serial>
+  </app-component-principal-store-inventory-create-update>
+</ng-template>

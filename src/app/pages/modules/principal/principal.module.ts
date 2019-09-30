@@ -7,14 +7,18 @@ import { SharedModule } from '../../shared/shared.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
-import { ProductService } from './services/product.service';
+import { ReloadService } from './services/reload.service';
+import { PrincipalCreateUpdateProviderComponent } from './create_update/provider/principal_create_update_provider';
+import { PrincipalListProviderComponent } from './list/provider/principal_list_provider';
 
 
 @NgModule({
     declarations: [
         PrincipalComponent,
         PrincipalListProductComponent,
-        PrincipalCreateUpdateProductComponent
+        PrincipalCreateUpdateProductComponent,
+        PrincipalCreateUpdateProviderComponent,
+        PrincipalListProviderComponent
     ],
     imports: [
         CommonModule,
@@ -24,7 +28,7 @@ import { ProductService } from './services/product.service';
         ReactiveFormsModule,
         FormsModule
     ],
-    providers: [ProductService],
+    providers: [ReloadService],
     bootstrap: []
 })
 export class PrincipalModule { }

@@ -1,0 +1,59 @@
+<div class="modal-header">
+  <h2 class="title">
+    Creación de Proveedor
+  </h2>
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="providerForm">
+    <div class="row form-contact">
+      <div class="col-12">
+        <div class="form-group">
+          <input type="text" formControlName="nickname" class="form-control" [attr.disabled]="nickname ? true : null"
+            placeholder="Nickname" [ngClass]="
+                      {
+                        'is-valid': _formService.isValid(providerForm, 'nickname') === true,
+                        'is-invalid': _formService.isValid(providerForm, 'nickname') === false
+                      }">
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="form-group">
+          <input type="text" formControlName="name" class="form-control" placeholder="Nombre" [ngClass]="
+                        {
+                          'is-valid': _formService.isValid(providerForm, 'name') === true,
+                          'is-invalid': _formService.isValid(providerForm, 'name') === false
+                        }">
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="form-group">
+          <input type="text" formControlName="lastName" class="form-control" placeholder="Apellido" [ngClass]="
+                          {
+                            'is-valid': _formService.isValid(providerForm, 'lastName') === true,
+                            'is-invalid': _formService.isValid(providerForm, 'lastName') === false
+                          }">
+        </div>
+      </div>
+      <div class="col-12 mb-5">
+        <div class="input-group">
+          <!-- <input type="text" formControlName="name" class="form-control" placeholder="Nombre" [ngClass]="
+                            {
+                              'is-valid': _formService.isValid(providerForm, 'name') === true,
+                              'is-invalid': _formService.isValid(providerForm, 'name') === false
+                            }"> -->
+          <input class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #d="ngbDatepicker"
+            (ngModelChange)="format($event)" readonly [(ngModel)]="fromDate" [ngModelOptions]="{standalone: true}">
+          <div class="input-group-append">
+            <button class="input-group-text" (click)="d.toggle()" type="button">
+              <span style="cursor: pointer;">Seleccione</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-primary btn-block m-0" (click)="save()">Guardar</button>
+  </form>
+</div>

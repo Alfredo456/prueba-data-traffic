@@ -4,24 +4,40 @@
       <div class="card shadow">
         <ng-template [ngIf]="true">
           <div class="card-header border-0">
-            <h3 class="mb-3">PRUEBA</h3>
+            <h3 class="mb-3">Entidades</h3>
             <div class="row">
               <div class="col">
-                <div class="input-group">
-                  <input #box class="form-control" placeholder="PRUEBA" autocomplete="off" autocorrect="off"
-                    autocapitalize="off" spellcheck="false">
-                  <div class="input-group-append">
-                    <div class="input-group-text"><i class="fas fa-search"></i></div>
-                  </div>
+                <ng-template [ngIf]="entitiesList && entitiesList.length > 0 ">
+                  <angular2-multiselect [data]="entitiesList" [(ngModel)]="selectedItem" [settings]="setting">
+                  </angular2-multiselect>
+                </ng-template>
+              </div>
+              <ng-template [ngIf]="selectedItem && selectedItem[0] && selectedItem[0].id === 1">
+                <div class="col">
+                  <button class="btn btn-simple btn-sm btn-block"
+                    (click)="_modalService.openModal(createProduct, { keyboard: false, backdrop:'static'})">CREAR</button>
                 </div>
-              </div>
-              <div class="col">
-                <button class="btn btn-simple btn-sm btn-block"
-                  (click)="_modalService.openModal(createProduct, { keyboard: false, backdrop:'static'})">CREAR</button>
-              </div>
+              </ng-template>
+              <ng-template [ngIf]="selectedItem && selectedItem[0] && selectedItem[0].id === 2">
+                <div class="col">
+                  <button class="btn btn-simple btn-sm btn-block"
+                    (click)="_modalService.openModal(createProvider, { keyboard: false, backdrop:'static'})">CREAR</button>
+                </div>
+              </ng-template>
             </div>
           </div>
-          <app-component-principal-product-list></app-component-principal-product-list>
+          <ng-template [ngIf]="selectedItem && selectedItem[0] && selectedItem[0].id === 1">
+            <app-component-principal-product-list></app-component-principal-product-list>
+          </ng-template>
+          <ng-template [ngIf]="selectedItem && selectedItem[0] && selectedItem[0].id === 2">
+            <app-component-principal-provider-list></app-component-principal-provider-list>
+          </ng-template>
+          <ng-template [ngIf]="selectedItem && selectedItem[0] && selectedItem[0].id === 3">
+            <app-component-principal-product-list></app-component-principal-product-list>
+          </ng-template>
+          <ng-template [ngIf]="selectedItem && selectedItem[0] && selectedItem[0].id === 4">
+            <app-component-principal-product-list></app-component-principal-product-list>
+          </ng-template>
         </ng-template>
       </div>
     </div>
@@ -31,4 +47,9 @@
 <ng-template #createProduct let-close="close" let-d="dismiss">
   <app-component-principal-product-create-update [close]="close" [dismiss]="d">
   </app-component-principal-product-create-update>
+</ng-template>
+
+<ng-template #createProvider let-close="close" let-d="dismiss">
+  <app-component-principal-provider-create-update [close]="close" [dismiss]="d">
+  </app-component-principal-provider-create-update>
 </ng-template>

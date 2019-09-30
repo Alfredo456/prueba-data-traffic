@@ -2,3 +2,7 @@
 ngb-modal-backdrop {
   z-index: 950 !important;
 }
+
+angular2-multiselect .c-remove.clear-all {
+  display: none;
+}

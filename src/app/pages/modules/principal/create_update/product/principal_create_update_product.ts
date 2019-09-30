@@ -4,7 +4,7 @@ import { FormService } from 'src/app/pages/shared/services/form.service';
 import { LocalStorageService } from 'src/app/pages/shared/services/localstorage.service';
 import { Product } from 'src/app/pages/shared/models/product.model';
 import { NotificationsService } from 'angular2-notifications';
-import { ProductService } from '../../services/product.service';
+import { ReloadService } from '../../services/reload.service';
 
 @Component({
     selector: 'app-component-principal-product-create-update',
@@ -20,7 +20,7 @@ export class PrincipalCreateUpdateProductComponent implements OnInit {
     constructor(private fb: FormBuilder,
         public _formService: FormService,
         private _localStorageService: LocalStorageService,
-        private _notificationsService: NotificationsService, private _productService: ProductService) {
+        private _notificationsService: NotificationsService, private _reloadService: ReloadService) {
     }
 
     ngOnInit(): void {
@@ -53,7 +53,7 @@ export class PrincipalCreateUpdateProductComponent implements OnInit {
             if (this.serial) {
                 if (this._localStorageService.updateProduct(this.formatForm())) {
                     this._notificationsService.success('Edición de Producto', 'edición exitosa');
-                    this._productService.reloadAction();
+                    this._reloadService.reloadAction();
                     this.dismiss();
                 } else {
                     this._notificationsService.error('Edición de Producto', 'error');
@@ -61,7 +61,7 @@ export class PrincipalCreateUpdateProductComponent implements OnInit {
             } else {
                 if (this._localStorageService.setProduct(this.formatForm())) {
                     this._notificationsService.success('Registro de Producto', 'registro exitoso');
-                    this._productService.reloadAction();
+                    this._reloadService.reloadAction();
                     this.dismiss();
                 } else {
                     this._notificationsService.error('Registro de Producto', 'serial existente');

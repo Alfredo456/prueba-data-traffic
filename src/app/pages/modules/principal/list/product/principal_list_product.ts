@@ -3,7 +3,7 @@ import { Product } from 'src/app/pages/shared/models/product.model';
 import { LocalStorageService } from 'src/app/pages/shared/services/localstorage.service';
 import { ModalService } from 'src/app/pages/shared/services/modal.service';
 import { NotificationsService } from 'angular2-notifications';
-import { ProductService } from '../../services/product.service';
+import { ReloadService } from '../../services/reload.service';
 
 @Component({
     selector: 'app-component-principal-product-list',
@@ -17,7 +17,7 @@ export class PrincipalListProductComponent implements OnInit {
     public serial: string;
     @ViewChild('createProduct', { static: false }) createProduct: any;
 
-    constructor(private _localStorageService: LocalStorageService, private _modalService: ModalService, private _notificationsService: NotificationsService, private _productService: ProductService) {
+    constructor(private _localStorageService: LocalStorageService, private _modalService: ModalService, private _notificationsService: NotificationsService, private _reloadService: ReloadService) {
         this.page = 1;
         this.totalRegister = 0;
         this.dataperPage = 10;
@@ -25,7 +25,7 @@ export class PrincipalListProductComponent implements OnInit {
 
     ngOnInit(): void {
         this.getAllProducts();
-        this._productService.reload.subscribe(values => {
+        this._reloadService.reload.subscribe(values => {
             this.getAllProducts();
         });
     }

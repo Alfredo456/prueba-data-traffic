@@ -4,10 +4,12 @@ import { ModalService } from './services/modal.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormService } from './services/form.service';
 import { PaginatePipe } from './pipes/paginate.pipe';
+import { OnlyNumber } from './directives/only-number.directive';
 
 @NgModule({
     declarations: [
-        PaginatePipe
+        PaginatePipe,
+        OnlyNumber
     ],
     imports: [
         NgbModule
@@ -18,7 +20,8 @@ import { PaginatePipe } from './pipes/paginate.pipe';
         FormService
     ],
     exports: [
-        PaginatePipe
+        PaginatePipe,
+        OnlyNumber
     ],
     bootstrap: []
 })

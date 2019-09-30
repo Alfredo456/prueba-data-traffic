@@ -41,7 +41,7 @@
       </div>
       <div class="col-12">
         <div class="form-group">
-          <input type="text" formControlName="quantity" class="form-control" placeholder="Cantidad" [ngClass]="
+          <input type="text" formControlName="quantity" OnlyNumber='true' class="form-control" placeholder="Cantidad" [ngClass]="
                         {
                           'is-valid': _formService.isValid(productForm, 'quantity') === true,
                           'is-invalid': _formService.isValid(productForm, 'quantity') === false
